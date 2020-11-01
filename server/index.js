@@ -4,7 +4,7 @@ const io = require('socket.io')(http);
 const port = process.env.PORT || 5000;
 const cors = require('cors');
 
-const { addUser, removeUser, getUser, getAllUsers } = require('./user');
+const { addUser, removeUser, getUser, getAllUsers, checkCommand } = require('./utilities');
 
 
 app.use(cors());
@@ -14,7 +14,6 @@ app.get('/', (req, res) => {
 });
 const messages = [];
 io.on('connect', (socket) => {
-
 
     socket.on('join', ({ }, callback) => {
         console.log('\n\nA new user is trying to join');
@@ -27,21 +26,35 @@ io.on('connect', (socket) => {
 
 
         let timestamp = new Date();
+        let admin = { id: '0', name: 'admin', color: '828282' }
         socket.emit('message', {
-            user: 'admin', text: `${user.name}, welcome to Chat Chat.`,
-            time: `${new Date()}`
+            user: admin, text: `${user.name}, welcome to Chat Chat.`,
+            time: `${new Date()}`, type: 'join1'
         });
         socket.emit('messages', { messages });
         socket.broadcast.emit('message', {
-            user: 'admin', text: `${user.name} has joined!`,
-            time: `${new Date()}`
+            user: admin, text: `${user.name} has joined!`,
+            time: `${new Date()}`, type: 'join2'
         });
         socket.broadcast.emit('usersList', { users });
 
         // io.to(user.room).emit('roomData', { room: user.room, users: getUsersInRoom(user.room) });
 
-        callback(user.name, users);
+        callback(user, users);
     });
+
+    const sendMessage = (user, message, timestamp,newmessage ) => {
+        socket.broadcast.emit('message', 
+            newmessage
+        );
+        socket.emit('message', 
+            newmessage
+        );
+        messages.push(newmessage);
+        console.log('\n\n Someone send a new message')
+        console.log('The message is: ')
+        console.log(newmessage)
+    }
 
     socket.on('sendMessage', (message, callback) => {
         const user = getUser(socket.id);
@@ -49,25 +62,29 @@ io.on('connect', (socket) => {
 
         let timestamp = new Date();
         let newmessage = {
-            user: user.name, text: message,
-            time: `${timestamp}`
+            user: user, text: message,
+            time: `${timestamp}`, type: 'sendm4'
         };
         console.log('\n\n newmessage:');
         console.log(newmessage);
-        messages.push(newmessage);
-        console.log(messages);
 
-        socket.broadcast.emit('message', {
-            user: user.name, text: message,
-            time: `${timestamp}`
-        });
-        socket.emit('message', {
-            user: user.name, text: message,
-            time: `${timestamp}`
-        });
-        console.log('\n\n Someone send a new message')
-        console.log('The message is: ')
-        console.log(message)
+        let switch_case = checkCommand(user, message);
+        console.log('switch case is: '+switch_case);
+        switch (switch_case) {
+            case 0:
+                sendMessage(user, message, timestamp, newmessage);
+                break;
+            case 1:
+                console.log('in case 1')
+                let users = getAllUsers();
+                socket.broadcast.emit('changeColor', { user, users });
+                socket.emit('changeColor', { user, users });
+                break;
+            case 2:
+                return "#0345fc";
+                break;
+        }
+        // sendMessage();
         callback();
     });
 
@@ -79,9 +96,10 @@ io.on('connect', (socket) => {
             const users = getAllUsers();
             console.log('All current users:')
             console.log(users);
+            let admin = { id: '0', name: 'admin', color: '828282' }
             io.emit('message', {
-                user: 'Admin', text: `${user.name} has left.`,
-                time: `${timestamp}`
+                user: admin, text: `${user.name} has left.`,
+                time: `${timestamp}`, type: 'disconnect5'
             });
             socket.broadcast.emit('usersList', { users });
         }

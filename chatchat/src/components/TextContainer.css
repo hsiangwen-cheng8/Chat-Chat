@@ -8,6 +8,7 @@
   color: white;
   height: 60%;
   justify-content: space-between;
+  overflow: hidden;
 }
 
 .activeContainer {
@@ -26,11 +27,34 @@
 }
 
 .textContainer h1 {
+  font-size: 3vh;
+  margin-bottom: 0px;
+}
+.textContainer h2 {
+  font-size: 2vh;
   margin-bottom: 0px;
 }
 
-@media (min-width: 320px) and (max-width: 1200px) {
+@media (min-width: 0px) and (max-width: 760px) {
   .textContainer {
-    display: none;
+    display: flex;
+    flex-direction: column;
+    margin-left: 0%;
+    margin-right: 0%;
+    margin-top: 4%;
+    width: 15%;
+    color: white;
+    height: 60%;
+    justify-content: space-between;
+    overflow: hidden;
+  }
+
+  .textContainer h1 {
+    font-size: 1.5vh;
+    margin-bottom: 0px;
+  }
+  .textContainer h2 {
+    font-size: 1vh;
+    margin-bottom: 0px;
   }
 }

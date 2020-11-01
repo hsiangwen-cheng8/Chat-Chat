@@ -8,13 +8,18 @@ const Messages = ({ messages, name }) => {
 
   return (
     <div className="messages" id="messages_scroll">
-       {/* {messages.map((message, i) => <div className="message-wrapper" key={i}><Message message={message} name={name} /></div>)} */}
+      {/* {messages.map((message, i) => <div className="message-wrapper" key={i}><Message message={message} name={name} /></div>)} */}
       <div className="wrapper">
-        <div className="content">
-          {messages.map((message, i) => <div className="message-wrapper" key={i}><Message message={message} name={name} /></div>)}
+        <div className="content" id="MessagesContent">
+          {messages.map((message, key) => {
+            return (
+              <div className="message-wrapper" key={key}>
+                <Message message={message} name={name} />
+              </div>
+            );
+          })}
         </div>
       </div>
-
     </div>
   )
 };

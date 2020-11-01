@@ -1,31 +1,41 @@
 import React from 'react';
+// import { removeUser } from '../../../server/utilities';
 
 import onlineIcon from '../icons/onlineIcon.png';
-
+import AcitveItem from './ActiveItem';
 import './TextContainer.css';
 
-const TextContainer = ({ users }) => (
-  <div className="textContainer">
-    {
-      users
-        ? (
-          <div>
-            <h1>People currently chatting:</h1>
-            <div className="activeContainer">
-              <h2>
-                {users.map(({name}) => (
-                  <div key={name} className="activeItem">
-                    {name}
-                    <img alt="Online Icon" src={onlineIcon}/>
-                  </div>
-                ))}
-              </h2>
+const TextContainer = ({ users }) => {
+
+  const this_users = users;
+
+  return (
+    <div className="textContainer">
+      {
+        this_users
+          ? (
+            <div>
+              <h1>People currently chatting:</h1>
+              <div className="activeContainer">
+                <h2>
+                  {this_users.map((user, key) => {
+                    return (
+                      <AcitveItem
+                        key={key}
+                        user={user}
+                      />
+                    );
+                  })}
+                </h2>
+              </div>
             </div>
-          </div>
-        )
-        : null
-    }
-  </div>
-);
+          )
+          : null
+      }
+    </div>
+  )
+};
+
+
 
 export default TextContainer;
