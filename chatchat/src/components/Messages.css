@@ -1,0 +1,33 @@
+.messages {
+  padding: 5% 0;
+  overflow-y: auto;
+  height: 100%;
+  width: 100%;
+  max-width: 100%;
+  overflow-x: hidden
+}
+
+.wrapper {
+  display: table;
+  table-layout:fixed;
+  height: inherit;
+  width: inherit;
+  max-width: 100%;
+  overflow-x: hidden;
+}
+
+.content {
+  display: table-cell;
+  max-height: 100%;
+  width: 100%;
+  vertical-align: bottom;
+  max-width: 100%;
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
+.message-wrapper{
+  width: 100%;
+  max-width: 100%;
+  overflow-x: hidden
+}
