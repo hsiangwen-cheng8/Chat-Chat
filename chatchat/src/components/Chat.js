@@ -37,17 +37,31 @@ const Chat = () => {
 
     useEffect(() => {
         socket = io(ENDPOINT);
-        // localStorage.setItem('myCat', 'Tom');
-        socket.emit('join', {}, (user, users) => {
+
+        // localStorage.removeItem("id");
+        // localStorage.removeItem("name");
+        // localStorage.removeItem("color");
+
+        socket.emit('join', {
+            id: localStorage.getItem("id"), name: localStorage.getItem("name")
+            , color: localStorage.getItem("color")
+        }, (user, users) => {
             console.log('useEffect join');
             console.log('useEffect join: ' + user);
-            setOwner(user);
-            owner_glob=user;
+            console.log('useEffect join: ' + user.id);
+            console.log('useEffect join: ' + user.name);
+            console.log('useEffect join: ' + user.color);
+            // setOwner(user);
+            owner_glob = user;
             setName(user.name);
-            owner_name_glob =user.name;
+            owner_name_glob = user.name;
             setUserColor(user.color);
             console.log('useEffect join: ' + users);
             setUsers(users);
+            localStorage.setItem("id", user.id);
+            localStorage.setItem("name", user.name);
+            localStorage.setItem("color", user.color);
+            console.log('useEffect join: ' + localStorage.getItem('color'));
         });
     }, [ENDPOINT]);
 
@@ -78,8 +92,9 @@ const Chat = () => {
             let new_userColor = findNewUserColor(user, users);
             setUsers(users);
             console.log(user.name)
-            console.log(owner_name_glob)
-            if (user.name === owner_name_glob) {
+            console.log(localStorage.getItem("name"))
+            if (user.name === localStorage.getItem("name")) {
+                localStorage.setItem("color", new_userColor);
                 setUserColor(new_userColor);
             }
             user.color = new_userColor;
@@ -91,15 +106,17 @@ const Chat = () => {
             console.log('useEffect changeUserName')
             let new_name = findNewUserName(user, users);
             setUsers(users);
-            console.log(owner_glob.id)
+            console.log(localStorage.getItem("id"))
             console.log(user.id)
-            if (owner_glob.id === user.id) {
+            user.name = new_name;
+            if (localStorage.getItem("id") === user.id) {
+                console.log('useEffect changeUserName is user')
                 setOwner(user);
                 setName(new_name);
                 owner_glob = user;
-                owner_name_glob = user.name
+                owner_name_glob = new_name;
+                localStorage.setItem("name", new_name);
             }
-            user.name = new_name;
             changeMessageName(user);
             console.log(messages);
         });
@@ -166,7 +183,19 @@ const Chat = () => {
         event.preventDefault();
 
         if (message) {
-            socket.emit('sendMessage', message, () => setMessage(''));
+
+            const temp_message = message.toString();
+            console.log(temp_message);
+            const temp_user = {
+                id: localStorage.getItem("id"),
+                name: localStorage.getItem("name"),
+                color: localStorage.getItem("color")
+            };
+            socket.emit('sendMessage', { user: temp_user, arg_message: temp_message}, () => setMessage(''));
+            setMessage('');
+            // socket.emit('sendMessage', { user: temp_user, arg_message: temp_message}, () => {
+            //     setMessage('')
+            // });
         }
     }
 
@@ -179,7 +208,7 @@ const Chat = () => {
         <div className="full-container">
             <div className="container">
                 <h1 className="text-center">Chat Chat</h1>
-                <InfoBar name={name} color={userColor} />
+                <InfoBar name={name} color={localStorage.getItem("color")} />
                 <Messages messages={messages} name={name} />
                 <Input message={message} setMessage={setMessage} sendMessage={sendMessage} />
             </div>

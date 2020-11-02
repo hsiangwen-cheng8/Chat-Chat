@@ -14,13 +14,13 @@ const addUser = ({ id }) => {
     users.push(user);
     console.log('finish adding user');
     console.log(user);
-    return { user };
+    return user;
 }
 
-const checkStolenName = (name) => {
+const checkStolenName = (name, id) => {
     console.log('checkStolenName');
     for (let i = 0; i < users.length; i++) {
-        if (users[i].name === name) {
+        if (users[i].name === name && users[i].id !== id) {
 
             console.log('User name has been stolen');
             return true;
@@ -29,18 +29,21 @@ const checkStolenName = (name) => {
     return false;
 }
 
-const addExistUser = ({ id, name, color }) => {
+const addExistUser = (arg_id, arg_name, arg_color, current_socket_id ) => {
     console.log('addExistUser');
-    if (name === '') {
-        name = 'Dude' + usersCount;
+    if (checkStolenName(arg_name,arg_id)) {
+        arg_name = 'Dude' + usersCount;
     }
     usersCount++;
-    const user = { id, name, color };
+    console.log('addExistUser '+arg_id);
+    console.log('addExistUser '+arg_name);
+    console.log('addExistUser '+arg_color);
+    let user = { id: current_socket_id, name: arg_name, color: arg_color };
 
     users.push(user);
     console.log('finish adding exisitng user');
     console.log(user);
-    return { user };
+    return user;
 }
 
 const removeUser = (id) => {

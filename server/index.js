@@ -5,7 +5,7 @@ const port = process.env.PORT || 5000;
 const cors = require('cors');
 const cookieParser = require('cookie-parser');
 
-const { addUser, removeUser, getUser, getAllUsers, checkCommand } = require('./utilities');
+const { addUser, removeUser, getUser, getAllUsers, checkCommand, addExistUser } = require('./utilities');
 
 
 app.use(cors());
@@ -17,28 +17,56 @@ app.get('/', (req, res) => {
 const messages = [];
 io.on('connect', (socket) => {
 
-    socket.on('join', ({ }, callback) => {
-        console.log('\n\nA new user is trying to join');
-        const { user } = addUser({ id: socket.id });
-
+    socket.on('join', ({ id, name, color }, callback) => {
+        console.log('\n\nSocket Join!!!!!!!!!!!!!!!!!!!!!!!!');
+        console.log('id is ' + id)
+        console.log('name is ' + name)
+        console.log('color is ' + color)
+        console.log('id is ' + typeof (id))
+        console.log('name is ' + typeof (name))
+        console.log('color is ' + typeof (color))
+        let user;
+        if (id === null || name === null || color === null) {
+            console.log('A new user is trying to join1');
+            isNewUser = true;
+            user = addUser({ id: socket.id });
+        }
+        else if (typeof (id) === 'undefined' || typeof (name) === 'undefined' || typeof (color) === 'undefined') {
+            console.log('A new user is trying to join2');
+            isNewUser = true;
+            user = addUser({ id: socket.id });
+        }
+        else if (id == 'undefined' || name == 'undefined' || color == 'undefined') {
+            console.log('A new user is trying to join3');
+            isNewUser = true;
+            user = addUser({ id: socket.id });
+        }
+        else if (id == '' || name == '' || color == '') {
+            console.log('A new user is trying to join3');
+            isNewUser = true;
+            user = addUser({ id: socket.id });
+        }
+        else {
+            console.log('A existing user is trying to rejoin');
+            user = addExistUser(id, name, color, socket.id);
+        }
         console.log('The new user will be called: ' + user.name);
         const users = getAllUsers();
         console.log('All current users:')
         console.log(users);
         callback(user, users);
 
-
         let timestamp = new Date();
         let admin = { id: '0', name: 'admin', color: '828282' }
         console.log('Now Writting message')
         socket.emit('message', {
             user: admin, text: `${user.name}, welcome to Chat Chat.`,
-            time: `${new Date()}`, type: 'join1'
+            time: `${timestamp}`, type: 'join1'
         });
         socket.emit('messages', { messages });
         socket.broadcast.emit('message', {
             user: admin, text: `${user.name} has joined!`,
-            time: `${new Date()}`, type: 'join2'
+            time: `${timestamp}`, type: 'join2'
         });
         socket.broadcast.emit('usersList', { users });
 
@@ -57,26 +85,27 @@ io.on('connect', (socket) => {
         console.log(newmessage)
     }
 
-    socket.on('sendMessage', (message, callback) => {
-        let admin = { id: '0', name: 'admin', color: '828282' }
-        const user = getUser(socket.id);
+    socket.on('sendMessage', ({ user, arg_message }) => {
+        console.log('\n\n on sendMessage')
+        let admin = { id: '0', name: 'admin', color: '828282' };
         let temp_user = user;
-        console.log('dfjaiuodshjfuiasdf' + temp_user);
+        console.log('sendMessage message:' + user);
+        console.log('sendMessage message:' + arg_message);
 
         let timestamp = new Date();
         let newmessage = {
-            user: user, text: message,
+            user: user, text: arg_message,
             time: `${timestamp}`, type: 'sendm4'
         };
         console.log('\n\n newmessage:');
         console.log(newmessage);
 
-        let switch_case = checkCommand(user, message);
+        let switch_case = checkCommand(user, arg_message);
         console.log('switch case is: ' + switch_case);
         let users = getAllUsers();
         switch (switch_case) {
             case 0:
-                sendMessage(user, message, timestamp, newmessage);
+                sendMessage(user, arg_message, timestamp, newmessage);
                 break;
             case 1:
                 users = getAllUsers();
@@ -104,10 +133,11 @@ io.on('connect', (socket) => {
                 break;
         }
         // sendMessage();
-        callback();
+        // callback();
     });
 
     socket.on('disconnect', () => {
+        console.log('disconneciton!!!!!!!!!!!!!!!!!!!!')
         const user = removeUser(socket.id);
         let timestamp = new Date();
         if (user) {
