@@ -1,9 +1,8 @@
 import React from 'react';
-// import { removeUser } from '../../../server/utilities';
 
-import onlineIcon from '../icons/onlineIcon.png';
+import greenOnlineIcon from '../icons/greenOnlineIcon.png';
 
-import './TextContainer.css';
+import './OnlineUserContainer.css';
 
 const ActiveItem = ({ user }) => {
 
@@ -14,7 +13,7 @@ const ActiveItem = ({ user }) => {
     return (
         <div key={user.name} className="activeItem" style={style}>
             {user.name}
-            <img alt="Online Icon" src={onlineIcon} />
+            <img alt="Online Icon" src={greenOnlineIcon} />
         </div>
     )
 };

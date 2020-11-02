@@ -1,3 +1,8 @@
+// I took this concept from a online tutorial found here: https://www.youtube.com/watch?v=ZwFA3YMfkoc&ab_channel=JavaScriptMastery
+// Although I would argue that I made significant changes compare to the original.
+// I only re-use one out of 4 functions from the tutorial
+// And I implement 10 additional functions
+
 var hexColorRegex = require('hex-color-regex')
 
 const users = [];
@@ -5,9 +10,8 @@ let usersCount = 0;
 
 const addUser = ({ id }) => {
     console.log('addUser');
-    let name = 'Dude' + usersCount;
+    let name = 'Dude' + Math.floor(Math.random() * 1000)+usersCount*2;
     usersCount++;
-    // let color = '828282';
     let color = '7FFFD4';
     const user = { id, name, color };
 
@@ -20,7 +24,7 @@ const addUser = ({ id }) => {
 const checkStolenName = (name, id) => {
     console.log('checkStolenName');
     for (let i = 0; i < users.length; i++) {
-        if (users[i].name === name && users[i].id !== id) {
+        if (users[i].name === name) {
 
             console.log('User name has been stolen');
             return true;
@@ -29,15 +33,15 @@ const checkStolenName = (name, id) => {
     return false;
 }
 
-const addExistUser = (arg_id, arg_name, arg_color, current_socket_id ) => {
+const addExistUser = (arg_id, arg_name, arg_color, current_socket_id) => {
     console.log('addExistUser');
-    if (checkStolenName(arg_name,arg_id)) {
-        arg_name = 'Dude' + usersCount;
+    if (checkStolenName(arg_name, arg_id)) {
+        arg_name = 'Dude' + Math.floor(Math.random() * 1000)+usersCount*2;
     }
     usersCount++;
-    console.log('addExistUser '+arg_id);
-    console.log('addExistUser '+arg_name);
-    console.log('addExistUser '+arg_color);
+    console.log('addExistUser ' + arg_id);
+    console.log('addExistUser ' + arg_name);
+    console.log('addExistUser ' + arg_color);
     let user = { id: current_socket_id, name: arg_name, color: arg_color };
 
     users.push(user);
@@ -46,13 +50,12 @@ const addExistUser = (arg_id, arg_name, arg_color, current_socket_id ) => {
     return user;
 }
 
+// I took this from the tutorial 
 const removeUser = (id) => {
     const index = users.findIndex((user) => user.id === id);
 
     if (index !== -1) return users.splice(index, 1)[0];
 }
-
-const getUser = (id) => users.find((user) => user.id === id);
 
 const getAllUsers = () => {
     return users;
@@ -88,6 +91,26 @@ const checkCommand = (user, message) => {
     return 0;
 }
 
+const updateMessagesColor = (messages, user) => {
+    console.log('updateMessagesColor');
+    // Find new color 
+    for (let i = 0; i < users.length; i++) {
+        if (users[i].id === user.id) {
+            console.log('user found: ' + user.name);
+            user.color =  users[i].color;
+        }
+    }
+    for(let i = 0; i < messages.length; i++)
+    {
+        if(messages[i].user.name == user.name)
+        {
+            console.log('updateMessagesColor change');
+            messages[i].user.color = user.color;
+        }
+    }
+    return messages;
+}
+
 const isColor = (strColor) => {
     let fixes_color = '#' + strColor;
     return hexColorRegex().test(fixes_color);
@@ -121,4 +144,4 @@ const chagneUserColor = (user, color) => {
 }
 
 
-module.exports = { addUser, removeUser, getUser, getAllUsers, checkCommand, checkStolenName, addExistUser };
+module.exports = { addUser, removeUser, getAllUsers, checkCommand, checkStolenName, addExistUser, updateMessagesColor };

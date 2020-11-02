@@ -1,3 +1,8 @@
+/* Important note: I took this from online tutorial 
+The link is here: https://www.youtube.com/watch?v=ZwFA3YMfkoc&ab_channel=JavaScriptMastery 
+But again... I made many changes to it including resposive mobile page*/
+
+
 .textContainer {
   display: flex;
   flex-direction: column;

@@ -3,11 +3,13 @@ import io from "socket.io-client";
 
 import './Chat.css';
 
-import InfoBar from './InfoBar';
-import TextContainer from './TextContainer';
+import TopBar from './TopBar';
+import OnlineUserContainer from './OnlineUserContainer';
 import Messages from './Messages';
-import Input from './Input';
-
+import TextInputBox from './TextInputBox';
+// I took this concept from a online tutorial found here: https://www.youtube.com/watch?v=ZwFA3YMfkoc&ab_channel=JavaScriptMastery
+// Although I would argue that I made significant changes compare to the original. 
+// Majority of functionalities are by myself or recoded
 const ENDPOINT = 'localhost:5000';
 let socket;
 
@@ -162,11 +164,12 @@ const Chat = () => {
 
     const changeMessageColor = (user) => {
         console.log('changeMessageColor')
+        console.log('changeMessageColor: '+user.color)
         let old_messages = messages_history;
         messages_history = [];
         let newmessages = [];
         for (let i = 0; i < old_messages.length; i++) {
-            if (old_messages[i].user.id === user.id) {
+            if (old_messages[i].user.name === user.name) {
                 old_messages[i].user.color = user.color;
             }
             newmessages.push(old_messages[i]);
@@ -193,9 +196,6 @@ const Chat = () => {
             };
             socket.emit('sendMessage', { user: temp_user, arg_message: temp_message}, () => setMessage(''));
             setMessage('');
-            // socket.emit('sendMessage', { user: temp_user, arg_message: temp_message}, () => {
-            //     setMessage('')
-            // });
         }
     }
 
@@ -206,13 +206,13 @@ const Chat = () => {
 
     return (
         <div className="full-container">
-            <div className="container">
+            <div className="container .d-flex">
                 <h1 className="text-center">Chat Chat</h1>
-                <InfoBar name={name} color={localStorage.getItem("color")} />
+                <TopBar name={name} color={localStorage.getItem("color")} />
                 <Messages messages={messages} name={name} />
-                <Input message={message} setMessage={setMessage} sendMessage={sendMessage} />
+                <TextInputBox message={message} setMessage={setMessage} sendMessage={sendMessage} />
             </div>
-            <TextContainer users={users} />
+            <OnlineUserContainer users={users} />
         </div>
     )
 };

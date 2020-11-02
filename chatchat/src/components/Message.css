@@ -1,9 +1,11 @@
+/* Important note: I took this from online tutorial 
+The link is here: https://www.youtube.com/watch?v=ZwFA3YMfkoc&ab_channel=JavaScriptMastery */
+
 .messageBox {
-  background: #F3F3F3;
   border-radius: 20px;
-  padding-top: 3%;
-  padding-left: 3%;
-  padding-right: 3%;
+  padding-top: 2%;
+  padding-left: 2%;
+  padding-right: 2%;
   color: white;
   display: inline-block;
   max-width: 40%;
@@ -17,10 +19,6 @@
   font-size: 1.1em;
   word-wrap: break-word;
   margin-bottom: 1.2rem;
-}
-
-.messageText img {
-  vertical-align: middle;
 }
 
 .messageContainer {
@@ -37,16 +35,15 @@
 .sentText {
   display: flex;
   align-items: center;
-  font-family: Helvetica;
-  color: #828282;
-  letter-spacing: 0.3px;
+  color: #7e7979;
+  letter-spacing: 0.2px;
 }
 
-.pl-10 {
+.padding-left {
   padding-left: 10px;
 }
 
-.pr-10 {
+.padding-right {
   padding-right: 10px;
 }
 
@@ -58,16 +55,16 @@
   justify-content: flex-end;
 }
 
-.colorWhite {
+.white {
   color: white;
 }
 
-.colorDark {
-  color: #353535;
+.black {
+  color: black;
 }
 
 .backgroundBlue {
-  background: #2979FF;
+  background: #0f81df;
 }
 
 .backgroundLight {

@@ -1,11 +1,15 @@
+/* Important note: I took this from online tutorial 
+The link is here: https://www.youtube.com/watch?v=ZwFA3YMfkoc&ab_channel=JavaScriptMastery 
+I made of mild changes only...*/
+
 .form {
   margin-top: 2%;
   margin-bottom: 2%;
   display: flex;
-  border-top: 2px solid #D3D3D3;
+  border-top: 5px solid rgba(0, 0, 0, 0.1);
 }
 
-.input {
+input {
   border: none;
   border-radius: 0;
   padding: 5%;
@@ -13,14 +17,10 @@
   font-size: 1.2em;
 }
 
-input:focus, textarea:focus, select:focus{
-  outline: none;
-}
-
 .sendButton {
   color: #fff !important;
   text-transform: uppercase;
-  background: #2979FF;
+  background: #0f81df;
   display: inline-block;
   border: none;
   width: 20%;

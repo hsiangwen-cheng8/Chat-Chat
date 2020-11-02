@@ -1,3 +1,9 @@
+// I took this concept from a online tutorial found here: https://www.youtube.com/watch?v=ZwFA3YMfkoc&ab_channel=JavaScriptMastery
+// Although I would argue that I made significant changes compare to the original.
+// There are ~50 line of code from the source, now there are around 160
+// ALthough functions name are the same, such as join, connect, disconnect
+// But they are literally completely different code now as I re-write all of them!
+
 const app = require('express')();
 const http = require('http').Server(app);
 const io = require('socket.io')(http);
@@ -5,7 +11,7 @@ const port = process.env.PORT || 5000;
 const cors = require('cors');
 const cookieParser = require('cookie-parser');
 
-const { addUser, removeUser, getUser, getAllUsers, checkCommand, addExistUser } = require('./utilities');
+const { addUser, removeUser, getAllUsers, checkCommand, addExistUser, updateMessagesColor } = require('./utilities');
 
 
 app.use(cors());
@@ -14,7 +20,7 @@ app.use(cookieParser());
 app.get('/', (req, res) => {
     res.send({ response: "Server is up and running." }).status(200);
 });
-const messages = [];
+let messages = [];
 io.on('connect', (socket) => {
 
     socket.on('join', ({ id, name, color }, callback) => {
@@ -109,6 +115,8 @@ io.on('connect', (socket) => {
                 break;
             case 1:
                 users = getAllUsers();
+                let temp_messages = updateMessagesColor(messages, user);
+                messages = temp_messages;
                 socket.broadcast.emit('changeColor', { user, users });
                 socket.emit('changeColor', { user, users });
                 break;
