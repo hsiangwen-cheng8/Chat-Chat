@@ -4,6 +4,7 @@ const users = [];
 let usersCount = 0;
 
 const addUser = ({ id }) => {
+    console.log('addUser');
     let name = 'Dude' + usersCount;
     usersCount++;
     // let color = '828282';
@@ -17,6 +18,7 @@ const addUser = ({ id }) => {
 }
 
 const checkStolenName = (name) => {
+    console.log('checkStolenName');
     for (let i = 0; i < users.length; i++) {
         if (users[i].name === name) {
 
@@ -28,6 +30,7 @@ const checkStolenName = (name) => {
 }
 
 const addExistUser = ({ id, name, color }) => {
+    console.log('addExistUser');
     if (name === '') {
         name = 'Dude' + usersCount;
     }
@@ -54,7 +57,6 @@ const getAllUsers = () => {
 
 const checkCommand = (user, message) => {
     console.log('\n\nChecking new message for command');
-    console.log(message);
     let trim_message = message.trim();
     string = trim_message.split(" ", 2);
     if (string[0] === '/color') {
@@ -100,9 +102,7 @@ const checkUserName = (new_name) => {
 const chagneUserName = (user, new_name) => {
     for (let i = 0; i < users.length; i++) {
         if (users[i].id === user.id) {
-            console.log('user found: ' + user.name);
             users[i].name = new_name;
-            console.log(users);
             break;
         }
     }
@@ -111,9 +111,7 @@ const chagneUserName = (user, new_name) => {
 const chagneUserColor = (user, color) => {
     for (let i = 0; i < users.length; i++) {
         if (users[i].id === user.id) {
-            console.log('user found: ' + user.name);
             users[i].color = color;
-            console.log(users);
             break;
         }
     }

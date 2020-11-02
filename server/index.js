@@ -25,6 +25,7 @@ io.on('connect', (socket) => {
         const users = getAllUsers();
         console.log('All current users:')
         console.log(users);
+        callback(user, users);
 
 
         let timestamp = new Date();
@@ -41,9 +42,6 @@ io.on('connect', (socket) => {
         });
         socket.broadcast.emit('usersList', { users });
 
-        // io.to(user.room).emit('roomData', { room: user.room, users: getUsersInRoom(user.room) });
-
-        callback(user, users);
     });
 
     const sendMessage = (user, message, timestamp, newmessage) => {
@@ -94,6 +92,7 @@ io.on('connect', (socket) => {
             case 3:
                 users = getAllUsers();
                 console.log('hahahha ' + temp_user.name);
+                console.log('hahahha ' + users);
                 socket.broadcast.emit('changeUserName', { user, users });
                 socket.emit('changeUserName', { user, users });
                 break;

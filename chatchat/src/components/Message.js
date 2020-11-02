@@ -8,10 +8,6 @@ import ReactEmoji from 'react-emoji';
 const Message = ({ message: { text, user, time, type }, name }) => {
   let received_time = new Date(time);
   let isSentByCurrentUser = false;
-  // console.log(text);
-  // console.log(user);
-  // console.log(time);
-  // console.log(type);
   if (user.name === name) {
     isSentByCurrentUser = true;
   }

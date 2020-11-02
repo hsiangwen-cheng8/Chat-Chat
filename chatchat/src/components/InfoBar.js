@@ -1,11 +1,9 @@
 import React from 'react';
 
-import onlineIcon from '../icons/onlineIcon.png';
-
 import './InfoBar.css';
 
 const InfoBar = ({ name, color }) => {
-  console.log(name+" "+color);
+  console.log('InfoBar: ' + name + " " + color);
   const style = {
     color: '#' + color
   }

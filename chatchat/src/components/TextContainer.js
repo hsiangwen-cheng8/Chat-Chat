@@ -1,7 +1,5 @@
 import React from 'react';
-// import { removeUser } from '../../../server/utilities';
 
-import onlineIcon from '../icons/onlineIcon.png';
 import AcitveItem from './ActiveItem';
 import './TextContainer.css';
 
