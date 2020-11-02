@@ -8,10 +8,34 @@ const addUser = ({ id }) => {
     usersCount++;
     // let color = '828282';
     let color = '7FFFD4';
-    const user = { id, name, color};
+    const user = { id, name, color };
 
     users.push(user);
     console.log('finish adding user');
+    console.log(user);
+    return { user };
+}
+
+const checkStolenName = (name) => {
+    for (let i = 0; i < users.length; i++) {
+        if (users[i].name === name) {
+
+            console.log('User name has been stolen');
+            return true;
+        }
+    }
+    return false;
+}
+
+const addExistUser = ({ id, name, color }) => {
+    if (name === '') {
+        name = 'Dude' + usersCount;
+    }
+    usersCount++;
+    const user = { id, name, color };
+
+    users.push(user);
+    console.log('finish adding exisitng user');
     console.log(user);
     return { user };
 }
@@ -36,33 +60,57 @@ const checkCommand = (user, message) => {
     if (string[0] === '/color') {
         if (isColor(string[1])) {
             console.log('color is valid');
-            chagneUserColor(user,string[1]);
+            chagneUserColor(user, string[1]);
             return 1;
         }
         else {
             console.log('color is not valid');
-            return 0;
+            return 2;
         }
     }
-    else if(string[0] === '/name') {
+    else if (string[0] === '/name') {
         console.log('Changing name for: ' + user.id);
-        console.log('Name will change to : ' + string[1]);
-        return 2;
+        if (checkUserName(string[1])) {
+            // User name is not taken
+            console.log('Name will change to : ' + string[1]);
+            chagneUserName(user, string[1]);
+            return 3;
+        }
+        // User name is taken already
+        return 4;
+
     }
     return 0;
 }
 
 const isColor = (strColor) => {
-    let fixes_color = '#'+strColor;
+    let fixes_color = '#' + strColor;
     return hexColorRegex().test(fixes_color);
 }
 
+const checkUserName = (new_name) => {
+    for (let i = 0; i < users.length; i++) {
+        if (users[i].name === new_name) {
+            return false;
+        }
+    }
+    return true;
+}
 
-const chagneUserColor = (user,color) =>{
-    for (let i = 0; i < users.length; i++)
-    {
-        if(users[i].id === user.id)
-        {
+const chagneUserName = (user, new_name) => {
+    for (let i = 0; i < users.length; i++) {
+        if (users[i].id === user.id) {
+            console.log('user found: ' + user.name);
+            users[i].name = new_name;
+            console.log(users);
+            break;
+        }
+    }
+}
+
+const chagneUserColor = (user, color) => {
+    for (let i = 0; i < users.length; i++) {
+        if (users[i].id === user.id) {
             console.log('user found: ' + user.name);
             users[i].color = color;
             console.log(users);
@@ -72,4 +120,4 @@ const chagneUserColor = (user,color) =>{
 }
 
 
-module.exports = { addUser, removeUser, getUser, getAllUsers, checkCommand };
+module.exports = { addUser, removeUser, getUser, getAllUsers, checkCommand, checkStolenName, addExistUser };

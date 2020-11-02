@@ -5,7 +5,7 @@ import onlineIcon from '../icons/onlineIcon.png';
 import './InfoBar.css';
 
 const InfoBar = ({ name, color }) => {
-  console.log(name);
+  console.log(name+" "+color);
   const style = {
     color: '#' + color
   }

@@ -13,6 +13,7 @@ let socket;
 
 const Chat = () => {
 
+    const [owner, setOwner] = useState('');
     const [name, setName] = useState('');
     const [userColor, setUserColor] = useState('');
     const [users, setUsers] = useState('');
@@ -20,6 +21,8 @@ const Chat = () => {
     const [messages, setMessages] = useState([]);
 
     let messages_history = [];
+    let owner_name_glob = '';
+    let owner_glob;
 
     const setMultipleMessages = (new_messages) => {
         console.log(new_messages);
@@ -34,10 +37,13 @@ const Chat = () => {
 
     useEffect(() => {
         socket = io(ENDPOINT);
-
+        localStorage.setItem('myCat', 'Tom');
         socket.emit('join', {}, (user, users) => {
             console.log(user);
+            setOwner(user);
+            owner_glob=user;
             setName(user.name);
+            owner_name_glob =user.name;
             setUserColor(user.color);
             console.log(users);
             setUsers(users);
@@ -69,14 +75,68 @@ const Chat = () => {
             let new_userColor = findNewUserColor(user, users);
             console.log('setUsers(users)')
             setUsers(users);
-            console.log('setUserColor(new_userColor)')
-            setUserColor(new_userColor);
+            console.log(user.name)
+            console.log(owner_name_glob)
+            if (user.name === owner_name_glob) {
+                console.log('setUserColor(new_userColor)')
+                setUserColor(new_userColor);
+            }
             user.color = new_userColor;
             console.log('changeMessageColor(user)')
             changeMessageColor(user);
             console.log(messages);
         });
+
+        socket.on("changeUserName", ({ user, users }) => {
+            console.log(messages);
+            console.log('changeUserName')
+            let new_name = findNewUserName(user, users);
+            console.log('setUsers(users)')
+            setUsers(users);
+            console.log(owner_glob.id)
+            console.log(user.id)
+            if (owner_glob.id === user.id) {
+                console.log('setUserColor(new_userColor)')
+                setOwner(user);
+                setName(new_name);
+                owner_glob = user;
+                owner_name_glob = user.name
+            }
+            user.name = new_name;
+            console.log('changeMessageColor(user)')
+            changeMessageName(user);
+            console.log(messages);
+        });
     }, []);
+
+    const findNewUserName = (user, users) => {
+        for (let i = 0; i < users.length; i++) {
+            if (users[i].id === user.id) {
+                console.log('user found: ' + user.name);
+                return users[i].name;
+            }
+        }
+    }
+
+    const changeMessageName = (user) => {
+        let old_messages = messages_history;
+        console.log(messages_history);
+        messages_history = [];
+        let newmessages = [];
+        for (let i = 0; i < old_messages.length; i++) {
+            if (old_messages[i].user.id === user.id) {
+                old_messages[i].user.name = user.name;
+            }
+            newmessages.push(old_messages[i]);
+        }
+        console.log(newmessages);
+        let wrapper_obj = { messages: newmessages };
+        const myNode = document.getElementById("MessagesContent");
+        while (myNode.firstChild) {
+            myNode.removeChild(myNode.lastChild);
+        }
+        setMultipleMessages(wrapper_obj);
+    }
 
     const findNewUserColor = (user, users) => {
         for (let i = 0; i < users.length; i++) {
@@ -93,7 +153,6 @@ const Chat = () => {
         messages_history = [];
         let newmessages = [];
         for (let i = 0; i < old_messages.length; i++) {
-            console.log(old_messages[i]);
             if (old_messages[i].user.id === user.id) {
                 old_messages[i].user.color = user.color;
             }
