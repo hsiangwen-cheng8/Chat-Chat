@@ -10,7 +10,10 @@ let usersCount = 0;
 
 const addUser = ({ id }) => {
     console.log('addUser');
-    let name = 'Dude' + Math.floor(Math.random() * 1000)+usersCount*2;
+    let name = 'Dude' + Math.floor(Math.random() * 1000) + usersCount * 2;
+    while (checkStolenName(name, id)) {
+        name = 'Dude' + Math.floor(Math.random() * 1000) + usersCount * 2;
+    }
     usersCount++;
     let color = '7FFFD4';
     const user = { id, name, color };
@@ -35,8 +38,8 @@ const checkStolenName = (name, id) => {
 
 const addExistUser = (arg_id, arg_name, arg_color, current_socket_id) => {
     console.log('addExistUser');
-    if (checkStolenName(arg_name, arg_id)) {
-        arg_name = 'Dude' + Math.floor(Math.random() * 1000)+usersCount*2;
+    while (checkStolenName(arg_name, arg_id)) {
+        arg_name = 'Dude' + Math.floor(Math.random() * 1000) + usersCount * 2;
     }
     usersCount++;
     console.log('addExistUser ' + arg_id);
@@ -97,13 +100,11 @@ const updateMessagesColor = (messages, user) => {
     for (let i = 0; i < users.length; i++) {
         if (users[i].id === user.id) {
             console.log('user found: ' + user.name);
-            user.color =  users[i].color;
+            user.color = users[i].color;
         }
     }
-    for(let i = 0; i < messages.length; i++)
-    {
-        if(messages[i].user.name == user.name)
-        {
+    for (let i = 0; i < messages.length; i++) {
+        if (messages[i].user.name == user.name) {
             console.log('updateMessagesColor change');
             messages[i].user.color = user.color;
         }
