@@ -21,23 +21,23 @@ const Message = ({ message: { text, user, time, type }, name }) => {
   const messageContainerContent = () => {
     if (user.name === name) {
       return (
-        <div className="messageContainer justifyEnd">
-          <p className="sentText padding-right"><Time value={received_time} format="YYYY/MM/DD HH:mm" /></p>
-          <p className="sentText padding-right" style={style}> {user.name}</p>
-          <div className="messageBox backgroundBlue">
-            <p className="messageText white ">{ReactEmoji.emojify(text)}</p>
+        <div className="messageContainerRight ">
+          <p className="rightEndedText"><Time value={received_time} format="YYYY/MM/DD HH:mm" /></p>
+          <p className="rightEndedText" style={style}> {user.name}</p>
+          <div className="ownerMessageBox">
+            <p className="ownerMessageText">{ReactEmoji.emojify(text)}</p>
           </div>
         </div>
       )
     }
     else{
       return (
-        <div className="messageContainer justifyStart">
-          <div className="messageBox backgroundLight">
-            <p className="messageText black">{ReactEmoji.emojify(text)}</p>
+        <div className="messageContainerLeft">
+          <div className="userMessageBox">
+            <p className="userMessageText">{ReactEmoji.emojify(text)}</p>
           </div>
-          <p className="sentText padding-left" style={style}>{user.name}</p>
-          <p className="sentText padding-left "><Time value={received_time} format="YYYY/MM/DD HH:mm" /></p>
+          <p className="leftEndedText" style={style}>{user.name}</p>
+          <p className="leftEndedText"><Time value={received_time} format="YYYY/MM/DD HH:mm" /></p>
         </div>
       )
     }

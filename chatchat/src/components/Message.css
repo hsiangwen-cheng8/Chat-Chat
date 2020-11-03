@@ -1,72 +1,105 @@
 /* Important note: I took this from online tutorial 
 The link is here: https://www.youtube.com/watch?v=ZwFA3YMfkoc&ab_channel=JavaScriptMastery */
 
-.messageBox {
+.ownerMessageBox {
   border-radius: 20px;
   padding-top: 2%;
   padding-left: 2%;
   padding-right: 2%;
-  color: white;
+  background: #0f81df;
   display: inline-block;
   max-width: 40%;
   overflow-x: hidden
 }
 
-.messageText {
+.userMessageBox {
+  border-radius: 20px;
+  padding-top: 2%;
+  padding-left: 2%;
+  padding-right: 2%;
+  background: #F3F3F3;
+  display: inline-block;
+  max-width: 40%;
+  overflow-x: hidden
+}
+
+.ownerMessageText {
   width: 100%;
   letter-spacing: 0;
   float: left;
   font-size: 1.1em;
   word-wrap: break-word;
   margin-bottom: 1.2rem;
+  color: white;
 }
 
-.messageContainer {
+.userMessageText {
+  width: 100%;
+  letter-spacing: 0;
+  float: left;
+  font-size: 1.1em;
+  word-wrap: break-word;
+  margin-bottom: 1.2rem;
+  color: black;
+}
+
+.messageContainerRight {
   display: flex;
-  justify-content: flex-end;
   padding-left: 0%;
   margin-top: 3px;
   margin-right: 5%;
   width: 100%;
-  /* max-width: 100%;
-  overflow-x: hidden; */
+  justify-content: flex-end;
 }
 
-.sentText {
+.messageContainerLeft {
+  display: flex;
+  padding-left: 0%;
+  margin-top: 3px;
+  margin-right: 5%;
+  width: 100%;
+  justify-content: flex-start;
+}
+
+.rightEndedText{
   display: flex;
   align-items: center;
   color: #7e7979;
   letter-spacing: 0.2px;
-}
-
-.padding-left {
-  padding-left: 10px;
-}
-
-.padding-right {
   padding-right: 10px;
+  font-size: 2vw;
 }
 
-.justifyStart {
-  justify-content: flex-start;
+.leftEndedText{
+  display: flex;
+  align-items: center;
+  color: #7e7979;
+  letter-spacing: 0.2px;
+  padding-left: 10px;
+  font-size: 1.3vw;
 }
 
-.justifyEnd {
-  justify-content: flex-end;
+@media (min-width: 0px) and (max-width: 760px) {
+  .ownerMessageBox {
+    border-radius: 20px;
+    padding-top: 2%;
+    padding-left: 2%;
+    padding-right: 2%;
+    background: #0f81df;
+    display: inline-block;
+    max-width: 80%;
+    overflow-x: hidden
+  }
+  
+  .userMessageBox {
+    border-radius: 20px;
+    padding-top: 2%;
+    padding-left: 2%;
+    padding-right: 2%;
+    background: #F3F3F3;
+    display: inline-block;
+    max-width: 80%;
+    overflow-x: hidden
+  }
 }
 
-.white {
-  color: white;
-}
-
-.black {
-  color: black;
-}
-
-.backgroundBlue {
-  background: #0f81df;
-}
-
-.backgroundLight {
-  background: #F3F3F3;
-}

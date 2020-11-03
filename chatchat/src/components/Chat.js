@@ -7,6 +7,7 @@ import TopBar from './TopBar';
 import OnlineUserContainer from './OnlineUserContainer';
 import Messages from './Messages';
 import TextInputBox from './TextInputBox';
+import crownIcon from '../icons/crown.png';
 // I took this concept from a online tutorial found here: https://www.youtube.com/watch?v=ZwFA3YMfkoc&ab_channel=JavaScriptMastery
 // Although I would argue that I made significant changes compare to the original. 
 // Majority of functionalities are by myself or recoded
@@ -164,7 +165,7 @@ const Chat = () => {
 
     const changeMessageColor = (user) => {
         console.log('changeMessageColor')
-        console.log('changeMessageColor: '+user.color)
+        console.log('changeMessageColor: ' + user.color)
         let old_messages = messages_history;
         messages_history = [];
         let newmessages = [];
@@ -194,7 +195,7 @@ const Chat = () => {
                 name: localStorage.getItem("name"),
                 color: localStorage.getItem("color")
             };
-            socket.emit('sendMessage', { user: temp_user, arg_message: temp_message}, () => setMessage(''));
+            socket.emit('sendMessage', { user: temp_user, arg_message: temp_message }, () => setMessage(''));
             setMessage('');
         }
     }
@@ -204,15 +205,23 @@ const Chat = () => {
         objDiv.scrollTop = objDiv.scrollHeight;
     }
 
+    const headingCrownIcon = () => {
+        return (<img alt="Crown Icon" src={crownIcon} />)
+    }
+
     return (
         <div className="full-container">
-            <div className="container .d-flex">
-                <h1 className="text-center">Chat Chat</h1>
+            <div className="container">
+                <div className="Heading d-flex flex-row bd-highlight">
+                    <h1 className="text-center">Chat</h1>
+                    <img className="HeadingImg" alt="Crown Icon" src={crownIcon} />
+                    <h1 className="text-center">Chat</h1>
+                </div>
                 <TopBar name={name} color={localStorage.getItem("color")} />
                 <Messages messages={messages} name={name} />
                 <TextInputBox message={message} setMessage={setMessage} sendMessage={sendMessage} />
             </div>
-            <OnlineUserContainer users={users} />
+            <OnlineUserContainer users={users} name={name} />
         </div>
     )
 };

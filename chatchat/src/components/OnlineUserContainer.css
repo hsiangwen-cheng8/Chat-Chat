@@ -3,7 +3,7 @@ The link is here: https://www.youtube.com/watch?v=ZwFA3YMfkoc&ab_channel=JavaScr
 But again... I made many changes to it including resposive mobile page*/
 
 
-.textContainer {
+.onlineUsersContainer {
   display: flex;
   flex-direction: column;
   margin-left: 5%;
@@ -12,11 +12,11 @@ But again... I made many changes to it including resposive mobile page*/
   width: 15%;
   color: white;
   height: 60%;
-  justify-content: space-between;
+  /* justify-content: space-between; */
   overflow: hidden;
 }
 
-.activeContainer {
+.onlineUserContainer {
   display: flex;
   align-items: center;
   margin-bottom: 50%;
@@ -27,23 +27,28 @@ But again... I made many changes to it including resposive mobile page*/
   align-items: center;
 }
 
-.activeContainer img {
-  padding-left: 10px;
+.onlineUserContainer img {
+  padding-left: 1%;
 }
 
-.textContainer h1 {
+#onlineIcon {
+  margin-left: 5px;
+  margin-right: 5px;
+}
+
+.onlineUsersContainer h1 {
   font-size: 3vh;
   margin-bottom: 0px;
 }
-.textContainer h2 {
+.onlineUsersContainer h2 {
   font-size: 2vh;
   margin-bottom: 0px;
 }
 
 @media (min-width: 0px) and (max-width: 760px) {
-  .textContainer {
-    display: flex;
-    flex-direction: column;
+  .onlineUsersContainer {
+    /* display: flex;
+    flex-direction: column; */
     margin-left: 0%;
     margin-right: 0%;
     margin-top: 4%;
@@ -54,11 +59,11 @@ But again... I made many changes to it including resposive mobile page*/
     overflow: hidden;
   }
 
-  .textContainer h1 {
+  .onlineUsersContainer h1 {
     font-size: 1.5vh;
     margin-bottom: 0px;
   }
-  .textContainer h2 {
+  .onlineUsersContainer h2 {
     font-size: 1vh;
     margin-bottom: 0px;
   }

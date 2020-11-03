@@ -14,11 +14,6 @@ body {
     height: 100%;
 }
 
-.container h1{
-    color: #0f81df;
-    margin: 0;
-    font-size: 5rem;
-}
 
 input:focus, textarea:focus, select:focus{
     outline: none;

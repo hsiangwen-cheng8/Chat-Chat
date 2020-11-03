@@ -16,3 +16,27 @@ But again... I made quite a bit changes here compare to the original */
   padding-left: 5%;
 }
 
+.TopBar h3{
+  font-size: 2vw;
+}
+
+@media (min-width: 0px) and (max-width: 760px) {
+  .TopBar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: #0f81df;
+    border-radius: 25px;
+    height: 10%;
+    max-height: 80px;
+    width: 100%;
+    margin-top: 1%;
+    margin-bottom: 1%;
+    padding-top: 2%;
+    padding-left: 5%;
+  }
+  .TopBar h3{
+    font-size: 5vw;
+  }
+}
+
