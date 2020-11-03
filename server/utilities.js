@@ -36,20 +36,34 @@ const checkStolenName = (name, id) => {
     return false;
 }
 
+const checkExistingUser = (arg_id, arg_name) => {
+    for (let i = 0; i < users.length; i++) {
+        if (users[i].id === arg_id && users[i].name === arg_name) {
+            return true;
+        }
+    }
+    return false;
+}
+
 const addExistUser = (arg_id, arg_name, arg_color, current_socket_id) => {
     console.log('addExistUser');
-    while (checkStolenName(arg_name, arg_id)) {
-        arg_name = 'Dude' + Math.floor(Math.random() * 1000) + usersCount * 2;
-    }
-    usersCount++;
-    console.log('addExistUser ' + arg_id);
-    console.log('addExistUser ' + arg_name);
-    console.log('addExistUser ' + arg_color);
     let user = { id: current_socket_id, name: arg_name, color: arg_color };
+    if (!checkExistingUser(arg_id, arg_name)) {
+        while (checkStolenName(arg_name, arg_id)) {
+            arg_name = 'Dude' + Math.floor(Math.random() * 1000) + usersCount * 2;
+        }
+        usersCount++;
+        console.log('addExistUser ' + arg_id);
+        console.log('addExistUser ' + arg_name);
+        console.log('addExistUser ' + arg_color);
+        users.push(user);
+        console.log('finish adding exisitng user');
+        console.log(user);
+    }
+    else{
+        user.id = arg_id;
+    }
 
-    users.push(user);
-    console.log('finish adding exisitng user');
-    console.log(user);
     return user;
 }
 

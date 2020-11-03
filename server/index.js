@@ -28,9 +28,6 @@ io.on('connect', (socket) => {
         console.log('id is ' + id)
         console.log('name is ' + name)
         console.log('color is ' + color)
-        console.log('id is ' + typeof (id))
-        console.log('name is ' + typeof (name))
-        console.log('color is ' + typeof (color))
         let user;
         if (id === null || name === null || color === null) {
             console.log('A new user is trying to join1');
